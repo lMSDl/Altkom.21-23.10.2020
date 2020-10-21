@@ -66,24 +66,38 @@ namespace ConsoleApp
         {
             if (personToEdit == null)
             {
-                Console.Write(Resources.Id);
-                var input = Console.ReadLine();
-                int id = int.Parse(input);
+                string input;
+                int id;
+                do
+                {
+                    Console.Write(Resources.Id);
+                    input = Console.ReadLine();
+                }
+                while (!int.TryParse(input, out id));
 
                 //var personToEdit = from person in People where person.Id == id select person;
                 personToEdit = People.Where(person => person.Id == id)/*.Select(person => person)*/.SingleOrDefault();
-            }
 
-            if (personToEdit == null)
-            {
-                Console.WriteLine(Resources.IdNotFound);
-                Console.ReadLine();
-                return;
+                if (personToEdit == null)
+                {
+                    Console.WriteLine(Resources.IdNotFound);
+                    Console.ReadLine();
+                    return;
+                }
             }
 
             personToEdit.LastName = ReadData(Resources.LastName, personToEdit.LastName);
             personToEdit.FirstName = ReadData(Resources.FirstName, personToEdit.FirstName);
-            personToEdit.BirthDate = DateTime.Parse(ReadData(Resources.BirthDate, personToEdit.BirthDate.ToShortDateString()));
+
+            string data;
+            DateTime birthDate;
+            do
+            {
+                data = ReadData(Resources.BirthDate, personToEdit.BirthDate.ToShortDateString());
+            }
+            while(!DateTime.TryParse(data, out birthDate));
+
+            personToEdit.BirthDate = birthDate;
         }
 
         private static string ReadData(string label, string defaultValue)
