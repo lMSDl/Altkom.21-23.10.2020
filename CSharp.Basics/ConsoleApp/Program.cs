@@ -1,7 +1,6 @@
 ﻿using ConsoleApp.Models;
 using System;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using ConsoleApp.Properties;
 
@@ -13,10 +12,6 @@ namespace ConsoleApp
             new Person() { FirstName = "Ewa", LastName = "Warszawianka", BirthDate = new DateTime(1986, 1, 3) },
             new Person() { FirstName = "Adam", LastName = "Adamski" }
         };
-
-        // 1. Zastąpić ciągi tekstowe za pomocą Resource
-        // 2. Dodać polecenie "add", które będzie tworzyć nową osobę i dodawać do kolekcji (People.Add(obj))
-        // 3. Utworzyć merodę, która porównuje dwa stringi (caseIgnore) i zwraca prawda/fałsz
 
         static void Main(string[] args)
         {
@@ -32,18 +27,22 @@ namespace ConsoleApp
                 foreach (var person in People)
                 {
                     //var personInfo = string.Format("{0, -15}{1, -15}{2, -10}", person.LastName, person.FirstName, person.BirthDate.ToShortDateString());
-                    var personInfo = $"{person.Id, -3}{person.LastName,-15}{person.FirstName,-15}{person.BirthDate.ToShortDateString(),-10}";
+                    var personInfo = $"{person.Id,-3}{person.LastName,-15}{person.FirstName,-15}{person.BirthDate.ToShortDateString(),-10}";
                     Console.WriteLine(personInfo);
                 }
 
                 var input = Console.ReadLine();
-                if (string.Compare(input, "exit", ignoreCase: true) == 0)
+                if (Compare(input, "exit"))
                 {
                     isContinue = false;
                 }
-                else if(string.Compare(input, "edit", ignoreCase: true) == 0)
+                else if (Compare(input, "edit"))
                 {
                     Edit();
+                }
+                else if (Compare(input, "add"))
+                {
+                    Add();
                 }
             }
 
@@ -51,25 +50,40 @@ namespace ConsoleApp
             Console.ReadLine();
         }
 
-        private static void Edit()
+        private static void Add()
         {
-            Console.Write("Id: ");
-            var input = Console.ReadLine();
-            int id = int.Parse(input);
+            var person = new Person();
+            Edit(person);
+            People.Add(person);
+        }
 
-            //var personToEdit = from person in People where person.Id == id select person;
-            var personToEdit = People.Where(person => person.Id == id)/*.Select(person => person)*/.SingleOrDefault();
+        private static bool Compare(string input, string value)
+        {
+            return string.Compare(input, value, ignoreCase: true) == 0;
+        }
+
+        private static void Edit(Person personToEdit = null)
+        {
+            if (personToEdit == null)
+            {
+                Console.Write(Resources.Id);
+                var input = Console.ReadLine();
+                int id = int.Parse(input);
+
+                //var personToEdit = from person in People where person.Id == id select person;
+                personToEdit = People.Where(person => person.Id == id)/*.Select(person => person)*/.SingleOrDefault();
+            }
 
             if (personToEdit == null)
             {
-                Console.WriteLine("Id not found");
+                Console.WriteLine(Resources.IdNotFound);
                 Console.ReadLine();
                 return;
             }
 
-            personToEdit.LastName = ReadData("Last name", personToEdit.LastName);
-            personToEdit.FirstName = ReadData("First name", personToEdit.FirstName);
-            personToEdit.BirthDate = DateTime.Parse(ReadData("Birth name", personToEdit.BirthDate.ToShortDateString()));
+            personToEdit.LastName = ReadData(Resources.LastName, personToEdit.LastName);
+            personToEdit.FirstName = ReadData(Resources.FirstName, personToEdit.FirstName);
+            personToEdit.BirthDate = DateTime.Parse(ReadData(Resources.BirthDate, personToEdit.BirthDate.ToShortDateString()));
         }
 
         private static string ReadData(string label, string defaultValue)
