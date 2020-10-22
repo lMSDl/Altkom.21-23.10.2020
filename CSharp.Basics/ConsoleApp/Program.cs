@@ -35,7 +35,6 @@ namespace ConsoleApp
             WriteLine += Logger.LogLine;
         }
 
-
         static void Main(string[] args)
         {
             bool isContinue = true;
@@ -80,17 +79,28 @@ namespace ConsoleApp
         private static void Filter()
         {
             var people = PeopleService.Read().Where(person => person.LastName.Contains("i")).ToList();
+
             // 1. Osoby urodzone po 1950 roku (new DateTime(1951, 1, 1))
+            //var people = PeopleService.Read().Where(x => x.BirthDate >= new DateTime(1951, 1, 1)).ToList();
             // 2. Osoby z 4 literami w imieniu (.Length)
+            //var people = PeopleService.Read().Where(x => x.FirstName.Length == 4).ToList();
             // 3. 1. i 2.
+            //var people = PeopleService.Read().Where(x => x.BirthDate >= new DateTime(1951, 1, 1)).Where(x => x.FirstName.Length == 4).ToList();
             // 4. Osoby młodsze niż 30 lat (.Year)
+            //var people = PeopleService.Read().Where(x => DateTime.Today.Year - x.BirthDate.Year < 30).ToList();
+            // 7.1. Wyświetlić wszystkie osoby posortowane po nazwisku
+            //var people = PeopleService.Read().OrderBy(x => x.LastName).ToList();
+            // 7.2. Wyświetlić wszystkie osoby posortowane po nazwisku, a następnie po imieniu
+            //var people = PeopleService.Read().OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList();
 
             ShowPeople(people);
 
 
             WriteLine(PeopleService.Read().Where(x => x.FirstName == "Lisa").Select(x => x.LastName).FirstOrDefault());
             // 5. Data urodzenia osoby, która ma na nazwisko "Li" oraz jej imię ma 3 litery
+            //WriteLine(PeopleService.Read().Where(x => x.LastName == "Li").Where(x => x.FirstName.Length == 3).Select(x => x.BirthDate.ToShortDateString()).FirstOrDefault());
             // 6. Imię i nazwisko osoby urodzonej w 1950 roku.
+            //WriteLine(PeopleService.Read().Where(x => x.BirthDate.Year == 1950).Select(x => $"{x.FirstName} {x.LastName}").FirstOrDefault());
 
             Console.ReadLine();
         }
