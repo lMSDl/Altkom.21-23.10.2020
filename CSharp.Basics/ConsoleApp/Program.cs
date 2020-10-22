@@ -7,16 +7,12 @@ using Models;
 using Services.Interfaces;
 using Services.InMemeoryService;
 using ConsoleApp.Models;
+using System.Runtime.InteropServices;
 
 namespace ConsoleApp
 {
     public class Program
     {
-        // 1. Dodać metodę Delete(int id) do IPeopleService
-        // 2. Zaimplementować brakującą metodę z IPeopleService
-        // 3. Dodać komendę Delete do Commands
-        // 4. Zapewnić obsługę komendy Delete
-
         private static IPeopleService PeopleService { get; } = new PeopleInMemoryService();
 
         static void Main(string[] args)
@@ -41,15 +37,13 @@ namespace ConsoleApp
                 case Commands.Exit:
                     return false;
                 case Commands.Edit:
-                        var personToEdit = FindPerson();
-                        if (personToEdit != null)
-                        {
-                            Edit(personToEdit);
-                            PeopleService.Update(personToEdit);
-                        }
-                        break;
+                    Edit();
+                    break;
                 case Commands.Add:
                     Add();
+                    break;
+                case Commands.Delete:
+                    Delete();
                     break;
                 default:
                     Console.WriteLine(Resources.UnknownCommand);
@@ -57,6 +51,23 @@ namespace ConsoleApp
                     break;
             }
             return true;
+        }
+
+        private static void Delete()
+        {
+            var person = FindPerson();
+            if (person != null)
+                PeopleService.Delete(person.Id);
+        }
+
+        private static void Edit()
+        {
+            var personToEdit = FindPerson();
+            if (personToEdit != null)
+            {
+                Edit(personToEdit);
+                PeopleService.Update(personToEdit);
+            }
         }
 
         private static void ShowPeople()

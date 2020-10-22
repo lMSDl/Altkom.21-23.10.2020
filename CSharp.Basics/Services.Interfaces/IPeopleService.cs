@@ -13,5 +13,6 @@ namespace Services.Interfaces
         Person Read(int id);
         IEnumerable<Person> Read();
         void Update(Person person);
+        void Delete(int id);
     }
 }

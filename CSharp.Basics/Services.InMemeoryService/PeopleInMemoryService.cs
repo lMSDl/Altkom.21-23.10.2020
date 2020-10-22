@@ -54,5 +54,13 @@ namespace Services.InMemeoryService
             People.Remove(localPerson);
             People.Add(person);
         }
+
+        public void Delete(int id)
+        {
+            var localPerson = Read(id);
+            if (localPerson == null)
+                return;
+            People.Remove(localPerson);
+        }
     }
 }

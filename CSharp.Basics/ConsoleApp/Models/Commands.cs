@@ -10,6 +10,7 @@ namespace ConsoleApp.Models
     {
         Exit,
         Edit = 100,
-        Add
+        Add,
+        Delete
     }
 }
