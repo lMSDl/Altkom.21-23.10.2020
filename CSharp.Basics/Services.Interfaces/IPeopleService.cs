@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Services.Interfaces
 {
-    public interface IPeopleService
+    public interface ICrudService<T>
     {
-        void Create(Person person);
+        void Create(T person);
         Person Read(int id);
-        IEnumerable<Person> Read();
-        void Update(Person person);
+        IEnumerable<T> Read();
+        void Update(T person);
         void Delete(int id);
     }
 }

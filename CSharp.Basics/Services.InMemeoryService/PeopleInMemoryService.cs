@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Services.InMemeoryService
 {
-    public class PeopleInMemoryService : IPeopleService
+    public class PeopleInMemoryService : ICrudService<Person>
     {
         private static int LastId { get; set; }
 

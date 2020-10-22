@@ -8,12 +8,33 @@ using Services.Interfaces;
 using Services.InMemeoryService;
 using ConsoleApp.Models;
 using System.Runtime.InteropServices;
+using ConsoleApp.Extensions;
+using System.Diagnostics;
+using System.Text;
 
 namespace ConsoleApp
 {
     public class Program
     {
-        private static IPeopleService PeopleService { get; } = new PeopleInMemoryService();
+        private static ICrudService<Person> PeopleService { get; } = new PeopleInMemoryService();
+
+        private delegate void StringDelegate(string @string);
+
+        private static Logger Logger { get; } = new Logger();
+
+        private static StringDelegate Write { get; }
+        private static StringDelegate WriteLine { get; }
+        static Program()
+        {
+            Write += Console.Write;
+            Write += s => Debug.Write(s);
+            Write += Logger.Log;
+
+            WriteLine += Console.WriteLine;
+            WriteLine += s => Debug.WriteLine(s);
+            WriteLine += Logger.LogLine;
+        }
+
 
         static void Main(string[] args)
         {
@@ -25,14 +46,14 @@ namespace ConsoleApp
                 isContinue = ExecuteCommand(Console.ReadLine());
             }
 
-            Console.WriteLine(Resources.Goodbye);
+            Console.WriteLine(Logger.GetLogs());
+            WriteLine(Resources.Goodbye);
             Console.ReadLine();
         }
 
         public static bool ExecuteCommand(string input)
         {
-            var command = GetCommand(input);
-            switch (command)
+            switch (input.ToCommand())
             {
                 case Commands.Exit:
                     return false;
@@ -46,7 +67,7 @@ namespace ConsoleApp
                     Delete();
                     break;
                 default:
-                    Console.WriteLine(Resources.UnknownCommand);
+                    WriteLine(Resources.UnknownCommand);
                     Console.ReadLine();
                     break;
             }
@@ -80,7 +101,7 @@ namespace ConsoleApp
             {
                 //var personInfo = string.Format("{0, -15}{1, -15}{2, -10}", person.LastName, person.FirstName, person.BirthDate.ToShortDateString());
                 var personInfo = $"{person.Id,-3}{person.LastName,-15}{person.FirstName,-15}{person.BirthDate.ToShortDateString(),-10}";
-                Console.WriteLine(personInfo);
+                WriteLine(personInfo);
             }
         }
 
@@ -91,26 +112,13 @@ namespace ConsoleApp
             PeopleService.Create(person);
         }
 
-        private static bool Compare(string input, string value)
-        {
-            return string.Compare(input, value, ignoreCase: true) == 0;
-        }
-
-        //private static Nullable<Commands> GetCommand(string input)
-        private static Commands? GetCommand(string input)
-        {
-            if (Enum.TryParse(input, true, out Commands command))
-                return command;
-            return null;
-        }
-
         private static Person FindPerson()
         {
                 string input;
                 int id;
                 do
                 {
-                    Console.Write(Resources.Id);
+                    Write(Resources.Id);
                     input = Console.ReadLine();
                 }
                 while (!int.TryParse(input, out id));
@@ -119,7 +127,7 @@ namespace ConsoleApp
 
                 if (personToEdit == null)
                 {
-                    Console.WriteLine(Resources.IdNotFound);
+                    WriteLine(Resources.IdNotFound);
                     Console.ReadLine();
                     return null;
                 }
@@ -144,10 +152,11 @@ namespace ConsoleApp
             personToEdit.BirthDate = birthDate;
         }
 
+
         private static string ReadData(string label, string defaultValue)
         {
             string input;
-            Console.Write($"{label} ({defaultValue}): ");
+            Write($"{label} ({defaultValue}): ");
             input = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(input))
                 return defaultValue;
