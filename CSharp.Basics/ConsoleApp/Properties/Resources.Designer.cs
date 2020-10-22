@@ -113,5 +113,14 @@ namespace ConsoleApp.Properties {
                 return ResourceManager.GetString("LastName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown command.
+        /// </summary>
+        internal static string UnknownCommand {
+            get {
+                return ResourceManager.GetString("UnknownCommand", resourceCulture);
+            }
+        }
     }
 }

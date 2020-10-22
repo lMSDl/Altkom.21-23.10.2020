@@ -5,12 +5,14 @@ using ConsoleApp.Properties;
 using System.Globalization;
 using Models;
 using Services.Interfaces;
+using Services.InMemeoryService;
+using ConsoleApp.Models;
 
 namespace ConsoleApp
 {
     public class Program
     {
-        private static IPeopleService PeopleService { get; }
+        private static IPeopleService PeopleService { get; } = new PeopleInMemoryService();
 
         static void Main(string[] args)
         {
@@ -26,24 +28,28 @@ namespace ConsoleApp
             Console.ReadLine();
         }
 
-        public static bool ExecuteCommand(string command)
+        public static bool ExecuteCommand(string input)
         {
-            if (Compare(command, "exit"))
+            var command = GetCommand(input);
+            switch (command)
             {
-                return false;
-            }
-            else if (Compare(command, "edit"))
-            {
-                var personToEdit = FindPerson();
-                if (personToEdit != null)
-                {
-                    Edit(personToEdit);
-                    PeopleService.Update(personToEdit);
-                }
-            }
-            else if (Compare(command, "add"))
-            {
-                Add();
+                case Commands.Exit:
+                    return false;
+                case Commands.Edit:
+                        var personToEdit = FindPerson();
+                        if (personToEdit != null)
+                        {
+                            Edit(personToEdit);
+                            PeopleService.Update(personToEdit);
+                        }
+                        break;
+                case Commands.Add:
+                    Add();
+                    break;
+                default:
+                    Console.WriteLine(Resources.UnknownCommand);
+                    Console.ReadLine();
+                    break;
             }
             return true;
         }
@@ -74,6 +80,14 @@ namespace ConsoleApp
             return string.Compare(input, value, ignoreCase: true) == 0;
         }
 
+        //private static Nullable<Commands> GetCommand(string input)
+        private static Commands? GetCommand(string input)
+        {
+            if (Enum.TryParse(input, true, out Commands command))
+                return command;
+            return null;
+        }
+
         private static Person FindPerson()
         {
                 string input;
@@ -85,8 +99,6 @@ namespace ConsoleApp
                 }
                 while (!int.TryParse(input, out id));
 
-            //var personToEdit = from person in People where person.Id == id select person;
-            //var personToEdit = People.Where(person => person.Id == id)/*.Select(person => person)*/.SingleOrDefault();
             var personToEdit = PeopleService.Read(id);
 
                 if (personToEdit == null)
@@ -119,7 +131,7 @@ namespace ConsoleApp
         private static string ReadData(string label, string defaultValue)
         {
             string input;
-            Console.Write($"{label}: ");
+            Console.Write($"{label} ({defaultValue}): ");
             input = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(input))
                 return defaultValue;

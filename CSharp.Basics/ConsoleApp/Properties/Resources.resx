@@ -135,4 +135,7 @@
   <data name="LastName" xml:space="preserve">
     <value>Last name</value>
   </data>
+  <data name="UnknownCommand" xml:space="preserve">
+    <value>Unknown command</value>
+  </data>
 </root>
