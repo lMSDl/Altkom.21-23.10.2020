@@ -42,7 +42,7 @@ namespace ConsoleApp
             while (isContinue)
             {
                 Console.Clear();
-                ShowPeople();
+                ShowPeople(PeopleService.Read());
                 isContinue = ExecuteCommand(Console.ReadLine());
             }
 
@@ -66,12 +66,33 @@ namespace ConsoleApp
                 case Commands.Delete:
                     Delete();
                     break;
+                case Commands.Filter:
+                    Filter();
+                    break;
                 default:
                     WriteLine(Resources.UnknownCommand);
                     Console.ReadLine();
                     break;
             }
             return true;
+        }
+
+        private static void Filter()
+        {
+            var people = PeopleService.Read().Where(person => person.LastName.Contains("i")).ToList();
+            // 1. Osoby urodzone po 1950 roku (new DateTime(1951, 1, 1))
+            // 2. Osoby z 4 literami w imieniu (.Length)
+            // 3. 1. i 2.
+            // 4. Osoby młodsze niż 30 lat (.Year)
+
+            ShowPeople(people);
+
+
+            WriteLine(PeopleService.Read().Where(x => x.FirstName == "Lisa").Select(x => x.LastName).FirstOrDefault());
+            // 5. Data urodzenia osoby, która ma na nazwisko "Li" oraz jej imię ma 3 litery
+            // 6. Imię i nazwisko osoby urodzonej w 1950 roku.
+
+            Console.ReadLine();
         }
 
         private static void Delete()
@@ -91,13 +112,13 @@ namespace ConsoleApp
             }
         }
 
-        private static void ShowPeople()
+        private static void ShowPeople(IEnumerable<Person> people)
         {
             //for(var i = 0; i < People.Count; i++)
             //{
             //    var person = People[i];
             //}
-            foreach (var person in PeopleService.Read())
+            foreach (var person in people)
             {
                 //var personInfo = string.Format("{0, -15}{1, -15}{2, -10}", person.LastName, person.FirstName, person.BirthDate.ToShortDateString());
                 var personInfo = $"{person.Id,-3}{person.LastName,-15}{person.FirstName,-15}{person.BirthDate.ToShortDateString(),-10}";
