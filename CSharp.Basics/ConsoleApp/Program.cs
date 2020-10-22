@@ -23,7 +23,7 @@ namespace ConsoleApp
         private static Logger Logger { get; } = new Logger();
 
         private static StringDelegate Write { get; }
-        private static StringDelegate WriteLine { get; }
+        private static Action<string> WriteLine { get; }
         static Program()
         {
             Write += Console.Write;
@@ -134,12 +134,24 @@ namespace ConsoleApp
             return personToEdit;
         }
 
+        private static bool ConvertToString(string input, out string output)
+        {
+            output = input;
+            return true;
+        }
+
+        private static bool ConvertToDateTime(string input, out DateTime output)
+        {
+            return DateTime.TryParse(input, out output);
+        }
+
         private static void Edit(Person personToEdit)
         {
-            personToEdit.LastName = ReadData(Resources.LastName, personToEdit.LastName);
-            personToEdit.FirstName = ReadData(Resources.FirstName, personToEdit.FirstName);
+            personToEdit.LastName = ReadData(Resources.LastName, personToEdit.LastName, ConvertToString);
+            personToEdit.FirstName = ReadData(Resources.FirstName, personToEdit.FirstName, ConvertToString);
+            personToEdit.BirthDate = ReadData(Resources.BirthDate, personToEdit.BirthDate, ConvertToDateTime);
 
-            string data;
+            /*string data;
             DateTime birthDate;
             do
             {
@@ -147,20 +159,23 @@ namespace ConsoleApp
             }
             while(!DateTime.TryParse(data, out birthDate));
 //          while (!DateTime.TryParseExact(data, "dd/MM/yyyy", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None, out birthDate)) ;
-
-
-            personToEdit.BirthDate = birthDate;
+            personToEdit.BirthDate = birthDate;*/
         }
 
-
-        private static string ReadData(string label, string defaultValue)
+        private delegate bool ConvertDelegate<T>(string input, out T output);
+        private static T ReadData<T>(string label, T defaultValue, ConvertDelegate<T> converter)
         {
             string input;
-            Write($"{label} ({defaultValue}): ");
-            input = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(input))
-                return defaultValue;
-            return input;
+            T output;
+            do
+            {
+                Write($"{label} ({defaultValue}): ");
+                input = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(input))
+                    return defaultValue;
+            }
+            while (!converter(input, out output));
+            return output;
         }
     }
 }
