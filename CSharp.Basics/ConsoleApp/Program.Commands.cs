@@ -49,11 +49,11 @@ namespace ConsoleApp
         private static void Edit()
         {
             var personToEdit = FindPerson();
-            if (personToEdit != null)
-            {
-                Edit(personToEdit);
-                PeopleService.Update(personToEdit);
-            }
+            if (personToEdit == null)
+                return;
+
+            Edit(personToEdit);
+            PeopleService.Update(personToEdit);
         }
 
         private static void Add()

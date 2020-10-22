@@ -12,6 +12,8 @@ namespace ConsoleApp.Models
         Edit = 100,
         Add,
         Delete,
-        Filter
+        Filter,
+        ToJson,
+        FromJson
     }
 }

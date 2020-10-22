@@ -16,7 +16,7 @@ namespace ConsoleApp
 {
     public partial class Program
     {
-        private static ICrudService<Person> PeopleService { get; } = new PeopleInMemoryService();
+        private static ICrudService<Person> PeopleService { get; set; } = new PeopleInMemoryService();
 
         private delegate void StringDelegate(string @string);
         private static Logger Logger { get; } = new Logger();
@@ -34,6 +34,7 @@ namespace ConsoleApp
             WriteLine += Logger.LogLine;
         }
 
+        [STAThread]
         static void Main(string[] args)
         {
             bool isContinue = true;
@@ -66,6 +67,12 @@ namespace ConsoleApp
                     break;
                 case Commands.Filter:
                     Filter();
+                    break;
+                case Commands.ToJson:
+                    ToJson();
+                    break;
+                case Commands.FromJson:
+                    FromJson();
                     break;
                 default:
                     WriteLine(Resources.UnknownCommand);
