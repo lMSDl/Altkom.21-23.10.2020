@@ -12,6 +12,11 @@ namespace ConsoleApp
 {
     public class Program
     {
+        // 1. Dodać metodę Delete(int id) do IPeopleService
+        // 2. Zaimplementować brakującą metodę z IPeopleService
+        // 3. Dodać komendę Delete do Commands
+        // 4. Zapewnić obsługę komendy Delete
+
         private static IPeopleService PeopleService { get; } = new PeopleInMemoryService();
 
         static void Main(string[] args)
