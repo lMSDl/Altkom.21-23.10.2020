@@ -23,6 +23,7 @@ namespace ConsoleApp
 
         private static StringDelegate Write { get; }
         private static Action<string> WriteLine { get; }
+        //private static Func<int, float, string, string> Test { get; }
         static Program()
         {
             Write += Console.Write;
@@ -32,6 +33,8 @@ namespace ConsoleApp
             WriteLine += Console.WriteLine;
             WriteLine += s => Debug.WriteLine(s);
             WriteLine += Logger.LogLine;
+
+            //Test += (intParam, floatParam, stringParam) => $"{intParam} {floatParam} {stringParam}";
         }
 
         [STAThread]
@@ -74,6 +77,12 @@ namespace ConsoleApp
                 case Commands.FromJson:
                     FromJson();
                     break;
+                case Commands.ToXml:
+                    ToXML();
+                    break;
+                case Commands.FindInJson:
+                    FindInJson();
+                    break;
                 default:
                     WriteLine(Resources.UnknownCommand);
                     Console.ReadLine();
@@ -92,9 +101,7 @@ namespace ConsoleApp
             //}
             foreach (var person in people)
             {
-                //var personInfo = string.Format("{0, -15}{1, -15}{2, -10}", person.LastName, person.FirstName, person.BirthDate.ToShortDateString());
-                var personInfo = $"{person.Id,-3}{person.LastName,-15}{person.FirstName,-15}{person.BirthDate.ToShortDateString(),-10}";
-                WriteLine(personInfo);
+                WriteLine(person.ToString());
             }
         }
 

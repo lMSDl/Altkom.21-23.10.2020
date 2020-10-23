@@ -14,6 +14,8 @@ namespace ConsoleApp.Models
         Delete,
         Filter,
         ToJson,
-        FromJson
+        FromJson,
+        ToXml,
+        FindInJson
     }
 }
