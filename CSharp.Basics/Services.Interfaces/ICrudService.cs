@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace Services.Interfaces
 {
-    public interface ICrudService<T>
+    public interface ICrudService<T> : ICrService<T>
     {
-        void Create(T person);
-        Person Read(int id);
-        IEnumerable<T> Read();
         void Update(T person);
         void Delete(int id);
     }
