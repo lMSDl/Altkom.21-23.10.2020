@@ -11,12 +11,13 @@ using System.Runtime.InteropServices;
 using ConsoleApp.Extensions;
 using System.Diagnostics;
 using System.Text;
+using Services.DbService.Services;
 
 namespace ConsoleApp
 {
     public partial class Program
     {
-        private static ICrudService<Person> PeopleService { get; set; } = new PeopleInMemoryService();
+        private static ICrudService<Person> PeopleService { get; set; } = new EntityService<Person>(); // = new PeopleInMemoryService();
 
         private delegate void StringDelegate(string @string);
         private static Logger Logger { get; } = new Logger();
@@ -46,7 +47,7 @@ namespace ConsoleApp
                 Console.Clear();
                 ShowPeople(PeopleService.Read());
                 isContinue = ExecuteCommand(Console.ReadLine());
-                Test();
+                //Test();
             }
 
             Console.WriteLine(Logger.GetLogs());

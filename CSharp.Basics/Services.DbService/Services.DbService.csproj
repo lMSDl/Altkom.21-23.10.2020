@@ -5,19 +5,18 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BF4C6B11-7D08-4360-BF7E-1DE1A53FEC86}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>ConsoleApp</RootNamespace>
-    <AssemblyName>ConsoleApp</AssemblyName>
+    <ProjectGuid>{D3C24770-419D-4E90-AE1F-5A5472EA30DA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Services.DbService</RootNamespace>
+    <AssemblyName>Services.DbService</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -27,7 +26,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,10 +40,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -57,46 +51,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="Models\Commands.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+    <Compile Include="Configurations\PersonConfiguration.cs" />
+    <Compile Include="Context.cs" />
+    <Compile Include="Migrations\202010231120554_Initial.cs" />
+    <Compile Include="Migrations\202010231120554_Initial.designer.cs">
+      <DependentUpon>202010231120554_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\EntityService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Compile Include="Program.Commands.cs" />
-    <Compile Include="Program.Commands.Serialization.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj">
-      <Project>{d8425fd2-f50f-4b1f-98ec-17d2a3203b7d}</Project>
+      <Project>{D8425FD2-F50F-4B1F-98EC-17D2A3203B7D}</Project>
       <Name>Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services.DbService\Services.DbService.csproj">
-      <Project>{D3C24770-419D-4E90-AE1F-5A5472EA30DA}</Project>
-      <Name>Services.DbService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Services.InMemeoryService\Services.InMemeoryService.csproj">
-      <Project>{1A1C0C86-84DE-4D8E-8F87-289E08BFD35B}</Project>
-      <Name>Services.InMemeoryService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Services.Interfaces\Services.Interfaces.csproj">
-      <Project>{f9ff6483-a6c8-407d-9f13-1369486e952e}</Project>
+      <Project>{F9FF6483-A6C8-407D-9F13-1369486E952E}</Project>
       <Name>Services.Interfaces</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202010231120554_Initial.resx">
+      <DependentUpon>202010231120554_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

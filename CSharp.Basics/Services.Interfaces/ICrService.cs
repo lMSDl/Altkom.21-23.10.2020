@@ -10,7 +10,7 @@ namespace Services.Interfaces
     public interface ICrService<T>
     {
         void Create(T person);
-        Person Read(int id);
+        T Read(int id);
         IEnumerable<T> Read();
     }
 }
