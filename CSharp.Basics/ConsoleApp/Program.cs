@@ -46,11 +46,40 @@ namespace ConsoleApp
                 Console.Clear();
                 ShowPeople(PeopleService.Read());
                 isContinue = ExecuteCommand(Console.ReadLine());
+                Test();
             }
 
             Console.WriteLine(Logger.GetLogs());
             WriteLine(Resources.Goodbye);
             Console.ReadLine();
+        }
+
+        private static void Test()
+        {
+            try
+            {
+                ((Student)PeopleService.Read(11)).GoToSchool();
+            }
+            catch (IndexOutOfRangeException e)
+            {
+
+            }
+            catch (InvalidCastException e)
+            {
+                Console.WriteLine("Osoba o podanym id, nie jest studentem");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
+            var student = PeopleService.Read(11) as Student;
+            //if (student != null)
+            //    student.GoToSchool();
+            student?.GoToSchool();
+            var index = student?.IndexNo;
+            //student?.IndexNo = 1000; - tak nie można
+
         }
 
         public static bool ExecuteCommand(string input)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Services.InMemeoryService
 {
-    public class PeopleInMemoryService : ICrudService<Person>
+    public class PeopleInMemoryService : ICrudService<Person>, IDisposable
     {
         private static int LastId { get; set; } = 10;
 
@@ -30,7 +30,7 @@ namespace Services.InMemeoryService
             Create(new Person() { FirstName = "Run", LastName = "Liu", BirthDate = new DateTime(1965, 3, 9) });
             Create(new Person() { FirstName = "Sean", LastName = "Stewart", BirthDate = new DateTime(2000, 4, 16) });
             Create(new Person() { FirstName = "Olinda", LastName = "Turner", BirthDate = new DateTime(1999, 5, 22) });
-            Create(new Person() { FirstName = "Jon", LastName = "Orton", BirthDate = new DateTime(1990, 6, 5) });
+            Create(new Instructor() { FirstName = "Jon", LastName = "Orton", BirthDate = new DateTime(1990, 6, 5), Specialization = "Cooking" });
             Create(new Person() { FirstName = "Toby", LastName = "Nixon", BirthDate = new DateTime(1988, 7, 12) });
             Create(new Person() { FirstName = "Daniela", LastName = "Guinot", BirthDate = new DateTime(1980, 8, 8) });
             Create(new Person() { FirstName = "Vijay", BirthDate = new DateTime(1975, 10, 7) });
@@ -38,7 +38,7 @@ namespace Services.InMemeoryService
             Create(new Person() { FirstName = "Eric", LastName = "Gruber", BirthDate = new DateTime(1982, 11, 4) });
             Create(new Person() { FirstName = "Yuhong", LastName = "Li", BirthDate = new DateTime(1963, 2, 3) });
             Create(new Person() { FirstName = "Yan", LastName = "Li", BirthDate = new DateTime(1942, 1, 2) });
-            Create(new Person() { FirstName = "Piotr", LastName = "Piotrowski", BirthDate = new DateTime(1950, 11, 1) });
+            Create(new Student() { FirstName = "Piotr", LastName = "Piotrowski", BirthDate = new DateTime(1950, 11, 1), IndexNo = 802112 });
 
             Read(13).Partner = Read(11);
             Read(11).Partner = Read(13);
@@ -85,6 +85,11 @@ namespace Services.InMemeoryService
             if (localPerson == null)
                 return;
             People.Remove(localPerson);
+        }
+
+        public void Dispose()
+        {
+            People = null;
         }
     }
 }
