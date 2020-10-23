@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOLID", "SOLID\SOLID.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.DbService", "Services.DbService\Services.DbService.csproj", "{D3C24770-419D-4E90-AE1F-5A5472EA30DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp", "WpfApp\WpfApp.csproj", "{AC12FDB8-C75A-4083-B040-FC79F1826210}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{D3C24770-419D-4E90-AE1F-5A5472EA30DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3C24770-419D-4E90-AE1F-5A5472EA30DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3C24770-419D-4E90-AE1F-5A5472EA30DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC12FDB8-C75A-4083-B040-FC79F1826210}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC12FDB8-C75A-4083-B040-FC79F1826210}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC12FDB8-C75A-4083-B040-FC79F1826210}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC12FDB8-C75A-4083-B040-FC79F1826210}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

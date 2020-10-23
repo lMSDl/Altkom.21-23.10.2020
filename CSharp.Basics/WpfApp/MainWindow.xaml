@@ -1,0 +1,31 @@
+﻿<Window x:Class="WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp"
+        xmlns:properties="clr-namespace:WpfApp.Properties"
+        mc:Ignorable="d"
+        Title="{x:Static properties:Resources.AppName}" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid ItemsSource="{Binding People}" SelectedItem="{Binding SelectedPerson}" IsReadOnly="False" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{x:Static properties:Resources.Id}" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="{x:Static properties:Resources.FirstName}" Binding="{Binding FirstName}" />
+                <DataGridTextColumn Header="{x:Static properties:Resources.LastName}" Binding="{Binding LastName}"/>
+                <DataGridTextColumn Header="{x:Static properties:Resources.BirthDate}" Binding="{Binding BirthDate, Converter={local:DateTimeToStringConverter}}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <Button Content="Refresh" Click="Button_Click_Refresh"/>
+            <Button Content="Edit" Click="Button_Click_Edit"/>
+            <Button Content="Delete" Click="Button_Click_Delete"/>
+        </StackPanel>
+    </Grid>
+</Window>

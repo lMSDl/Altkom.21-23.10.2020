@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICrService.cs" />
+    <Compile Include="ICrAsyncService.cs" />
+    <Compile Include="ICrudAsyncService.cs" />
     <Compile Include="ICrudService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
